@@ -2,11 +2,17 @@
 // Created by luocf on 2019/7/19.
 //
 
-#include <thread>
-#include <sys/socket.h>
 #include <arpa/inet.h>
-#include <zconf.h>
+#include<unistd.h>
+#include<sys/types.h>
+#include <thread>
+#include <cstring>
+#include <iostream>
 #include "testService.h"
+
+#include "common/json.hpp"
+
+using json = nlohmann::json;
 testService::testService() {
 
 }
@@ -29,13 +35,19 @@ void testService::runCommunicationThread() {
         perror("connect"),exit(-1);
     }
     printf("连接成功\n");
-    char buf[100] = {};
+    char buf[512] = {};
     while (1)
     {
         memset(buf,0,sizeof(buf));//buf清0
         printf("请输入要说的话\n");
-        scanf("%s",buf);
-        write(sockfd,buf,strlen(buf));
+        //scanf("%s",buf);
+        sprintf(buf, "%s", "{\"cmd\":3,\"id\":2323,\"friendid\":\"abcdef123\"}");
+        json json_result;
+        json_result["cmd"] = 3;
+        json_result["id"] = 23234;
+        json_result["friendid"] = "abcdef123";
+        std::string result = json_result.dump();
+        write(sockfd,result.c_str(),strlen(result.c_str()));
         if (strcmp(buf,"bye") == 0) //退出的合适位置
         {
             break;

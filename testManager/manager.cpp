@@ -2,10 +2,10 @@
 // Created by luocf on 2019/7/19.
 //
 
-#include <zconf.h>
-
 #include <arpa/inet.h>
 #include <iostream>
+#include<unistd.h>
+#include<sys/types.h>
 #include "manager.h"
 #include "common/json.hpp"
 #include "common/FileUtils.hpp"
@@ -69,7 +69,7 @@ int ServiceId = 0;
 int manager::_createGroup() {
     int service_id = ServiceId++;
     //创建目录data dir
-    const std::string data_dir = mRootDir + std::string("/carrier_data/carrierService") + std::to_string(service_id);
+    const std::string data_dir = mRootDir + std::string("./carrierService") + std::to_string(service_id);
     FileUtils::mkdirs(data_dir.c_str(), 0777);
     std::async(&manager::_bindService, this, service_id, data_dir);
     //this->_bindService(service_id, data_dir);
@@ -188,7 +188,7 @@ void manager::runCommunicationThread() {
     char *from = inet_ntoa(client.sin_addr);
     printf("%s连接成功\n", from);
 
-    char buf[100] = {};
+    char buf[512] = {};
     while (1) {
         res = read(fd, buf, sizeof(buf));
         printf("接受了%d字节，内容:%s\n", res, buf);
@@ -199,9 +199,12 @@ void manager::runCommunicationThread() {
             break;
         }
         write(fd, buf, strlen(buf));
-        memset(buf, 0, sizeof(buf));
         //发送消息到工作线程
-        sendMsgToWorkThread(std::string(buf));
+        char msg[512];
+        sprintf(msg, "%s", buf);
+        sendMsgToWorkThread(msg);
+
+        memset(buf, 0, sizeof(buf));
     }
     close(fd);
     exit(0);

@@ -6,6 +6,7 @@
 #define TESTMANAGER_MANAGER_H
 
 #include <string>
+#include <iostream>
 #include <thread>
 #include <future>
 #include <queue>

@@ -4,10 +4,8 @@
 
 #ifndef TESTSERVICE_TESTSERVICE_H
 #define TESTSERVICE_TESTSERVICE_H
-
-
 #include <string>
-
+#include <iostream>
 class testService {
 public:
     testService();
