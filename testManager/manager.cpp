@@ -114,7 +114,7 @@ void manager::runWorkThread() {
                 }
                 case CommonVar::Command_UpdateAddress: {
                     int id = msg_json["id"];
-                    std::string friendid = msg_json["friendid"];
+                    std::string friendido = msg_json["friendid"];
                     this->_updateGroupAddress(id, friendid);
                     break;
                 }

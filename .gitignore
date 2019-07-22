@@ -42,8 +42,6 @@ local.properties
 # node.js
 #
 #node_modules/
-!node_modules/react-native/ReactAndroid/src/main/java/com/facebook/react/common/build
-!node_modules/react-native/ReactAndroid/build/third-party-ndk/jsc
 .bin
 npm-debug.log
 /node_modules/forge/SI/
@@ -55,16 +53,8 @@ buck-out/
 \.buckd/
 
 # import homepage js
-/js/home/imports/*
-/jsview/js/home/imports/*
-/jsview-ext/js/home/imports/*
-
-# tools
-/tools/*
 
 android/keystores/debug.keystore
-android/qcastcoat/coatapp/src/main/assets/*.apk
-android/qcastcoat/coatapp/src/main/jniLibs/armeabi-v7a/*.so
 .externalNativeBuild
 
 !node_module/jest-haste-map/build
